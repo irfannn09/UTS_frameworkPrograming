@@ -15,7 +15,7 @@ export class CreateMemberDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  fullName: string | undefined;
+  fullName: string;
 
   // class-transformer: email dirapikan (trim + huruf kecil) sebelum divalidasi,
   // sehingga "Budi@Mail.com" dan "budi@mail.com" dianggap duplikat.
@@ -24,13 +24,13 @@ export class CreateMemberDto {
   )
   @IsEmail()
   @MaxLength(100)
-  email: string | undefined;
+  email: string;
 
   @Trim()
   @Matches(/^\+?[0-9]{8,15}$/, {
     message: 'phoneNumber must contain 8-15 digits (may start with +)',
   })
-  phoneNumber: string | undefined;
+  phoneNumber: string;
 
   @IsOptional()
   @IsDateOnly()
