@@ -1,24 +1,24 @@
 /**
- * Utility tanggal. Tanggal "tanpa jam" disimpan sebagai string 'YYYY-MM-DD'
- * (sesuai tipe kolom `date` di PostgreSQL) sehingga bebas masalah zona waktu.
+ * Utility tanggal. Tanggal "tanpa jam" direpresentasikan sebagai objek Date
+ * pada tengah malam UTC (lihat dateOnlyTransformer), sehingga bebas masalah
+ * zona waktu dan bisa dibandingkan dengan getTime().
  */
 
-/** Mengubah Date menjadi 'YYYY-MM-DD' memakai zona waktu server. */
-export function toDateString(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+/** Mengambil bagian tanggal (zona waktu server) menjadi Date tengah malam UTC. */
+export function toDateOnly(date: Date): Date {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+  );
 }
 
-/** Tanggal hari ini dalam format 'YYYY-MM-DD'. */
-export function todayString(): string {
-  return toDateString(new Date());
+/** Hari ini sebagai Date tengah malam UTC. */
+export function today(): Date {
+  return toDateOnly(new Date());
 }
 
-/** Menambah (atau mengurangi) hari pada tanggal 'YYYY-MM-DD'. */
-export function addDays(dateString: string, days: number): string {
-  const date = new Date(`${dateString}T00:00:00Z`);
-  date.setUTCDate(date.getUTCDate() + days);
-  return date.toISOString().slice(0, 10);
+/** Menambah (atau mengurangi) hari; hasilnya Date baru. */
+export function addDays(date: Date, days: number): Date {
+  return new Date(date.getTime() + days * MS_PER_DAY);
 }

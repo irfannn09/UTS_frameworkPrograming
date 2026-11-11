@@ -8,7 +8,7 @@ import {
   MoreThanOrEqual,
   Repository,
 } from 'typeorm';
-import { addDays, todayString } from '../../common/utils/date.util';
+import { addDays, today } from '../../common/utils/date.util';
 import { Member } from '../members/entities/member.entity';
 import { MembershipPlan } from '../membership-plans/entities/membership-plan.entity';
 import { CreateMembershipDto } from './dto/create-membership.dto';
@@ -44,7 +44,7 @@ export class MembershipsService {
   }
 
   async findAll(query: QueryMembershipDto) {
-    const today = todayString();
+    const now = today();
     const where: FindOptionsWhere<Membership> = {};
 
     if (query.memberId !== undefined) {
@@ -54,14 +54,14 @@ export class MembershipsService {
     // Filter status diterjemahkan menjadi kondisi tanggal
     switch (query.status) {
       case MembershipStatus.ACTIVE:
-        where.startDate = LessThanOrEqual(today);
-        where.endDate = MoreThanOrEqual(today);
+        where.startDate = LessThanOrEqual(now);
+        where.endDate = MoreThanOrEqual(now);
         break;
       case MembershipStatus.UPCOMING:
-        where.startDate = MoreThan(today);
+        where.startDate = MoreThan(now);
         break;
       case MembershipStatus.EXPIRED:
-        where.endDate = LessThan(today);
+        where.endDate = LessThan(now);
         break;
     }
 
@@ -127,7 +127,7 @@ export class MembershipsService {
    * Contoh: paket 30 hari mulai 2026-11-01 berlaku sampai 2026-11-30
    * (tanggal mulai dihitung sebagai hari pertama).
    */
-  private calculateEndDate(startDate: string, durationInDays: number): string {
+  private calculateEndDate(startDate: Date, durationInDays: number): Date {
     return addDays(startDate, durationInDays - 1);
   }
 

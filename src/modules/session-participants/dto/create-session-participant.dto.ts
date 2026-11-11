@@ -1,11 +1,13 @@
-import { IsInt, Min } from 'class-validator';
+import { IsInt, IsNotEmpty, Min } from 'class-validator';
 
 export class CreateSessionParticipantDto {
-  @IsInt()
-  @Min(1)
-  memberId: number;
+  @IsNotEmpty({ message: 'ID member tidak boleh kosong' })
+  @IsInt({ message: 'ID member harus berupa bilangan bulat' })
+  @Min(1, { message: 'ID member minimal 1' })
+  readonly memberId: number;
 
-  @IsInt()
-  @Min(1)
-  trainingSessionId: number;
+  @IsNotEmpty({ message: 'ID training session tidak boleh kosong' })
+  @IsInt({ message: 'ID training session harus berupa bilangan bulat' })
+  @Min(1, { message: 'ID training session minimal 1' })
+  readonly trainingSessionId: number;
 }

@@ -5,13 +5,13 @@ import { IsInt, IsOptional, Min } from 'class-validator';
 export class QuerySessionParticipantDto {
   @IsOptional()
   @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  trainingSessionId?: number;
+  @IsInt({ message: 'ID training session harus berupa bilangan bulat' })
+  @Min(1, { message: 'ID training session minimal 1' })
+  readonly trainingSessionId?: number;
 
   @IsOptional()
   @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  memberId?: number;
+  @IsInt({ message: 'ID member harus berupa bilangan bulat' })
+  @Min(1, { message: 'ID member minimal 1' })
+  readonly memberId?: number;
 }

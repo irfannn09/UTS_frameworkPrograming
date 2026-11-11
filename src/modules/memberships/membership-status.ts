@@ -1,4 +1,4 @@
-import { todayString } from '../../common/utils/date.util';
+import { today as getToday } from '../../common/utils/date.util';
 
 export enum MembershipStatus {
   UPCOMING = 'UPCOMING', // belum mulai
@@ -8,20 +8,21 @@ export enum MembershipStatus {
 
 /**
  * Business Rule #3: status ditentukan dari masa berlaku (tidak disimpan di DB).
- * Tanggal berformat 'YYYY-MM-DD' sehingga bisa dibandingkan sebagai string.
+ * Semua tanggal adalah Date tengah malam UTC, jadi aman dibandingkan dengan
+ * getTime().
  */
 export function getMembershipStatus(
-  startDate: string,
-  endDate: string,
-  today: string = todayString(),
+  startDate: Date,
+  endDate: Date,
+  today: Date = getToday(),
 ): MembershipStatus {
-  if (startDate > today) return MembershipStatus.UPCOMING;
-  if (endDate < today) return MembershipStatus.EXPIRED;
+  if (startDate.getTime() > today.getTime()) return MembershipStatus.UPCOMING;
+  if (endDate.getTime() < today.getTime()) return MembershipStatus.EXPIRED;
   return MembershipStatus.ACTIVE;
 }
 
 /** Menambahkan properti `status` ke data membership untuk response. */
-export function withStatus<T extends { startDate: string; endDate: string }>(
+export function withStatus<T extends { startDate: Date; endDate: Date }>(
   membership: T,
 ) {
   return {

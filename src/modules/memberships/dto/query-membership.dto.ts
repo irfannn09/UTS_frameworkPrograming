@@ -7,11 +7,13 @@ export class QueryMembershipDto {
   // Query string selalu berupa teks; @Type mengubahnya menjadi number.
   @IsOptional()
   @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  memberId?: number;
+  @IsInt({ message: 'ID member harus berupa bilangan bulat' })
+  @Min(1, { message: 'ID member minimal 1' })
+  readonly memberId?: number;
 
   @IsOptional()
-  @IsEnum(MembershipStatus)
-  status?: MembershipStatus;
+  @IsEnum(MembershipStatus, {
+    message: 'Status harus salah satu dari: UPCOMING, ACTIVE, EXPIRED',
+  })
+  readonly status?: MembershipStatus;
 }

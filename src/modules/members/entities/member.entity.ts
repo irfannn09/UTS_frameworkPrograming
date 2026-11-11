@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { dateOnlyTransformer } from '../../../common/transformers/date-only.transformer';
 import { Membership } from '../../memberships/entities/membership.entity';
 import { SessionParticipant } from '../../session-participants/entities/session-participant.entity';
 
@@ -24,9 +25,14 @@ export class Member {
   @Column({ name: 'phone_number', length: 20, unique: true })
   phoneNumber: string;
 
-  // Tipe `date` di PostgreSQL dibaca TypeORM sebagai string 'YYYY-MM-DD'
-  @Column({ name: 'date_of_birth', type: 'date', nullable: true })
-  dateOfBirth: string | null;
+  // Kolom `date` di PostgreSQL, dipetakan ke Date lewat dateOnlyTransformer
+  @Column({
+    name: 'date_of_birth',
+    type: 'date',
+    nullable: true,
+    transformer: dateOnlyTransformer,
+  })
+  dateOfBirth: Date | null;
 
   @Column({ type: 'text', nullable: true })
   address: string | null;

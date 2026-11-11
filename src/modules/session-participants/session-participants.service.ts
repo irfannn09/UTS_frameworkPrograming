@@ -11,7 +11,7 @@ import {
   MoreThanOrEqual,
   Repository,
 } from 'typeorm';
-import { toDateString } from '../../common/utils/date.util';
+import { toDateOnly } from '../../common/utils/date.util';
 import { Member } from '../members/entities/member.entity';
 import { Membership } from '../memberships/entities/membership.entity';
 import { TrainingSession } from '../training-sessions/entities/training-session.entity';
@@ -75,7 +75,7 @@ export class SessionParticipantsService {
       );
     }
 
-    const sessionDate = toDateString(session.startTime);
+    const sessionDate = toDateOnly(session.startTime);
     const hasActiveMembership = await this.membershipsRepository.exists({
       where: {
         memberId: member.id,

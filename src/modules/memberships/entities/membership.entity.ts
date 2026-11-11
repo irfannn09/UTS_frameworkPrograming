@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { dateOnlyTransformer } from '../../../common/transformers/date-only.transformer';
 import { Member } from '../../members/entities/member.entity';
 import { MembershipPlan } from '../../membership-plans/entities/membership-plan.entity';
 
@@ -38,12 +39,16 @@ export class Membership {
   @JoinColumn({ name: 'membership_plan_id' })
   membershipPlan: MembershipPlan;
 
-  @Column({ name: 'start_date', type: 'date' })
-  startDate: string;
+  @Column({
+    name: 'start_date',
+    type: 'date',
+    transformer: dateOnlyTransformer,
+  })
+  startDate: Date;
 
   // Dihitung server: startDate + durasi paket - 1 hari
-  @Column({ name: 'end_date', type: 'date' })
-  endDate: string;
+  @Column({ name: 'end_date', type: 'date', transformer: dateOnlyTransformer })
+  endDate: Date;
 
   // CATATAN: status (UPCOMING/ACTIVE/EXPIRED) TIDAK disimpan, tetapi dihitung
   // dari startDate dan endDate setiap kali data dibaca.
