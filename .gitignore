@@ -1,0 +1,19 @@
+# dependencies & build
+/node_modules
+/dist
+*.tsbuildinfo
+
+# environment (berisi password, JANGAN di-commit; gunakan .env.example)
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+coverage/
