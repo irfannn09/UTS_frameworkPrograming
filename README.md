@@ -36,4 +36,4 @@ gym-management-system/
 
 | Nama | NIM | Modul yang dipegang |
 |---|---|---|
-| (isi) | (isi) | (isi) |
+| ADE ANANG KURNIAWAN  | 24090106  | ENTITIES |
