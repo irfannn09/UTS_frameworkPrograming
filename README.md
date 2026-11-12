@@ -32,8 +32,4 @@ gym-management-system/
     └── postman/gym-management-system.postman_collection.json
 ```
 
-## Anggota kelompok
 
-| Nama | NIM | Modul yang dipegang |
-|---|---|---|
-| ADE ANANG KURNIAWAN  | 24090106  | ENTITIES |
